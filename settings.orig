@@ -1,0 +1,8 @@
+#
+# Fill in values and rename to settings.py
+#
+#
+BASE_URL = "http://sfx.scholarsportal.info/brock?sid=III:innopac&pid=id="
+SEPARATOR = "|"
+GENERIC_TARGET_NAME = "Online Access"
+HEADING_LINE = GENERIC_TARGET_NAME+SEPARATOR+"TITLE"+SEPARATOR+"ISSN"+SEPARATOR+"URL"
