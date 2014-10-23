@@ -17,7 +17,10 @@ def resolve(sfxIn):
 
   jdata = sfxIn.split('\t')
   title = jdata[1]
-  issn = jdata[7].replace("-","")
+  issn = jdata[3].replace("-","")
+  #use eISSN as fallback
+  if issn == "":
+    issn = jdata[7].replace("-","")
   url = BASE_URL+issn
   ermReady = GENERIC_TARGET_NAME+SEPARATOR+title+SEPARATOR+issn+SEPARATOR+url+"\n"
 
