@@ -9,6 +9,9 @@
 import os
 import string
 import urllib2
+import sys
+import re
+
 
 from settings import *
 #
@@ -17,7 +20,14 @@ from settings import *
 def resolve(sfxIn):
 
   jdata = sfxIn.split('\t')
-  title = jdata[1]
+  title = str(jdata[1])
+  #Check for pinyin/kanji etc and use English Translations
+  # or if none available fall back on original translation
+  if re.search('kor',jdata[33]) or re.search('chi',jdata[33]):
+    title = str(jdata[8][0:jdata[8].find("/")].title())
+    if title == "":
+      title = str(jdata[1])
+
   issn = jdata[3].replace("-","")
   #use eISSN as fallback
   if issn == "":
