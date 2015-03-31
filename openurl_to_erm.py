@@ -1,37 +1,36 @@
 
-
 #
 # openurl_to_erm
 #
 # Usage: python openurl_to_erm.py opens first txt it finds and resolves into final.txt
 #
+# Also requires https://pypi.python.org/pypi/Unidecode/0.04.1 to peform transliterations
 
 import os
 import string
 import urllib2
 import sys
 import re
-
+import codecs
+from unidecode import unidecode
 
 from settings import *
-#
-#
-#
+
 def resolve(sfxIn):
 
   jdata = sfxIn.split('\t')
   title = str(jdata[1])
-  #Check for pinyin/kanji etc and use English Translations
-  # or if none available fall back on original translation
-  if re.search('kor',jdata[33]) or re.search('chi',jdata[33]):
-    title = str(jdata[8][0:jdata[8].find("/")].title())
-    if title == "":
-      title = str(jdata[1])
+  #If text language of journal is Korean, Chinese, or Russian can't transliterate title
+  if re.search('kor',jdata[33]) or re.search('chi',jdata[33]) or re.search('thai',jdata[33]) or re.search('rus',jdata[33]):
+    title = ""
+    return title,""
 
-  issn = jdata[3].replace("-","")
+
+  
+  issn = jdata[3]
   #use eISSN as fallback
   if issn == "":
-    issn = jdata[7].replace("-","")
+    issn = jdata[7]
   url = BASE_URL+issn
   ermReady = GENERIC_TARGET_NAME+SEPARATOR+title+SEPARATOR+issn+SEPARATOR+url+"\n"
 
@@ -43,8 +42,8 @@ running_tally = {}
 if __name__ == "__main__":
   print "Resolving",
   for f in os.listdir(os.getcwd()):
-    if f[-3:] == "txt" and f != "final.txt":
-      infile = open(f,"r")
+    if f[-3:] == "txt" and f != "final.txt" and f != "final_iii.txt":
+      infile = open(f,'r')
       break
   if not infile:
     print " input file not found"
@@ -68,11 +67,12 @@ for s in sp_file:
 print "done"
 
 
-outfile = open("final.txt","w")
+outfile = open("final.txt","wb")
 outfile.write(HEADING_LINE+"\n")
 
+# I hate strings in Python
 for k in sorted(running_tally):
-  outfile.write(running_tally[k])
+  outfile.write(unidecode(running_tally[k].decode('string-escape').decode('utf-8')))
 
 
 outfile.close()
