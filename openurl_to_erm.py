@@ -23,9 +23,9 @@ def resolve(sfxIn):
   #If text language of journal is Korean, Chinese, or Russian can't transliterate title
   if re.search('kor',jdata[33]) or re.search('chi',jdata[33]) or re.search('thai',jdata[33]) or re.search('rus',jdata[33]):
     title = ""
+    #keep track of error titles
+    error_tally.append(sfxIn)
     return title,""
-
-
   
   issn = jdata[3]
   #use eISSN as fallback
@@ -38,11 +38,12 @@ def resolve(sfxIn):
 
 
 running_tally = {}
+error_tally = []
 
 if __name__ == "__main__":
   print "Resolving",
   for f in os.listdir(os.getcwd()):
-    if f[-3:] == "txt" and f != "final.txt" and f != "final_iii.txt":
+    if f[-3:] == "txt" and f != "final.txt" and f != "final_iii.txt" and f != "titles_not_kept.txt":
       infile = open(f,'r')
       break
   if not infile:
@@ -68,13 +69,18 @@ print "done"
 
 
 outfile = open("final.txt","wb")
+errorfile = open("titles_not_kept.txt","wb")
 outfile.write(HEADING_LINE+"\n")
 
 # I hate strings in Python
 for k in sorted(running_tally):
   outfile.write(unidecode(running_tally[k].decode('string-escape').decode('utf-8')))
 
+for k in sorted(error_tally):
+  errorfile.write(unidecode(k.decode('string-escape').decode('utf-8')))
+
 
 outfile.close()
+errorfile.close()
 infile.close()
 print " fin"
