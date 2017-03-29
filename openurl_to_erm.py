@@ -32,9 +32,10 @@ def resolve(sfxIn):
   if issn == "":
     issn = jdata[7]
   url = BASE_URL+issn
-  ermReady = GENERIC_TARGET_NAME+SEPARATOR+title+SEPARATOR+issn+SEPARATOR+url+"\n"
+  sfx_target= jdata[5]
+  targetReady = title+SEPARATOR+sfx_target+SEPARATOR+issn+SEPARATOR+url+"\n"
 
-  return issn,ermReady
+  return issn,targetReady
 
 
 running_tally = {}
