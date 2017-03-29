@@ -69,7 +69,7 @@ for s in sp_file:
 print "done"
 
 
-outfile = open("final.txt","wb")
+outfile = open("final-targets.txt","wb")
 errorfile = open("titles_not_kept.txt","wb")
 outfile.write(HEADING_LINE+"\n")
 
