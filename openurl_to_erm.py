@@ -60,6 +60,7 @@ def resolveTarget(sfxIn):
 
 
 running_tally = {}
+running_tally_targets = {}
 error_tally = []
 
 if __name__ == "__main__":
@@ -79,7 +80,7 @@ for line in infile:
   #will only keep if ISSN or eISSN is associated with title
   if key != "":
     running_tally[key]= data
-    running_tally_targets[ley_targets] = data_targets
+    running_tally_targets[key_targets] = data_targets
 
 
 
