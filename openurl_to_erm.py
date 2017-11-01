@@ -100,7 +100,7 @@ outfile_targets = open("final-targets.txt","wb")
 errorfile = open("titles_not_kept.txt","wb")
 
 outfile.write(HEADING_LINE+"\n")
-outfile_targets.write(HEADING_LINE+"\n")
+outfile_targets.write(TARGET_HEADING_LINE+"\n")
 
 # I hate strings in Python
 for k in sorted(running_tally):
