@@ -6,6 +6,8 @@
 #
 # Also requires https://pypi.python.org/pypi/Unidecode/0.04.1 to peform transliterations
 
+from __future__ import print_function
+
 import os
 import string
 import urllib2
@@ -13,6 +15,7 @@ import sys
 import re
 import codecs
 from unidecode import unidecode
+
 
 from settings import *
 
@@ -32,7 +35,7 @@ def resolveERM(sfxIn):
   if issn == "":
     issn = jdata[7]
   url = BASE_URL+issn
-  ermReady = title+SEPARATOR+title+SEPARATOR+issn+SEPARATOR+url+"\n"
+  ermReady = GENERIC_TARGET_NAME+SEPARATOR+title+SEPARATOR+issn+SEPARATOR+url+"\n"
 
   return issn,ermReady
 
@@ -64,15 +67,16 @@ running_tally_targets = {}
 error_tally = []
 
 if __name__ == "__main__":
-  print "Resolving",
+  print("Resolving", end="")
   for f in os.listdir(os.getcwd()):
     if f[-3:] == "txt" and f != "final.txt" and f != "final_iii.txt" and f != "titles_not_kept.txt":
       infile = open(f,'r')
       break
+  
   if not infile:
-    print " input file not found"
+    print(" input file not found")
     exit
-  print ""
+  print("")
 
 for line in infile:
   key,data = resolveERM(line)
@@ -85,14 +89,14 @@ for line in infile:
 
 
 #Grab SP data as well
-print "Grabbing SP file...",
+print("Grabbing SP file...",end="")
 sp_file = urllib2.urlopen("http://sfx.scholarsportal.info/brock/cgi/public/get_file.cgi?file=holdings_brock.txt")
 for s in sp_file:
   key,data = resolveERM(s)
   key_targets, data_targets = resolveTarget(s)
   running_tally[key]= data
-  running_tally[key_targets] = data_targets
-print "done"
+  running_tally_targets[key_targets] = data_targets
+print("done")
 
 
 outfile = open("final.txt","wb")
@@ -117,4 +121,4 @@ outfile.close()
 outfile_targets.close()
 errorfile.close()
 infile.close()
-print " fin"
+print(" fin")
