@@ -26,7 +26,8 @@ $RECYCLE.BIN/
 .LSOverride
 
 # Icon must ends with two \r.
-Icon
+Icon
+
 
 # Thumbnails
 ._*
@@ -39,3 +40,5 @@ Icon
 settings.py
 settings.pyc
 final.txt
+newtitles.txt
+brief_bib_data.txt
