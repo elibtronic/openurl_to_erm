@@ -29,7 +29,7 @@ for b in b_file:
     else:
         try:
             target = tlookup[spliter[0].strip('"')]
-            nt_file.write(b.strip('\n')+',"'+target+'"\n')
+            nt_file.write(b.strip('\n')+',"'+target+",")
         except:
             nt_file.write(b.strip('\n')+',"ERROR IN DATA"\n')
         
